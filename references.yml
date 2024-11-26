@@ -6,9 +6,9 @@ intro-to-pqc:
   url: https://www.pqcrypto.org/www.springer.com/cda/content/document/cda_downloaddocument/9783540887010-c1.pdf
 
 codebreakers:
-    type: Book
-    title: The Codebreakers
-    author: David Kahn
-    genre: factual
-    serial-number: 0-684-83130-9,
-    date: 1967
+  type: Book
+  title: The Codebreakers
+  author: David Kahn
+  genre: factual
+  serial-number: 0-684-83130-9,
+  date: 1967
