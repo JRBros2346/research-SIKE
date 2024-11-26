@@ -1,7 +1,7 @@
 #import "@preview/charged-ieee:0.1.3": ieee
 
 #show: ieee.with(
-  title: [Foundations of the Supersingular Isogeny Key Exchange],
+  title: [Foundations of Supersingular Isogeny Key Exchange],
   abstract: [
     Supersingular Isogeny Key Exchange (SIKE) is a compact and efficient post-quantum cryptographic scheme based on elliptic curve isogenies. This review examines its mathematical foundations, applications, and limitations, particularly its vulnerability to the GPST attack, which led to its exclusion from NIST's 2023 standards. Despite this, SIKE offers key insights for advancing isogeny-based quantum-resistant cryptographic protocols.
   ],
@@ -18,7 +18,6 @@
     text("WIP", size: 17pt),
   ),
   bibliography: bibliography("references.yml"),
-  figure-supplement: [Fig.],
 )
 
 = Introduction
@@ -42,14 +41,27 @@ The World Wars marked a turning point for cryptography, with mechanical and elec
 From securing military secrets to protecting modern digital systems, cryptography remains the backbone of secure communication.
 
 = Mathematical Foundations of Modern Cryptography
-Modern cryptography encompasses various cryptographic functions, including
-  - Symmetric Cryptography
-  - Asymmetric Cryptography
-  - Cryptographic Hashes
-Each of these solve different purposes and have different approaches. We will look deeper into symmetric and asymmetric cryptography.
-
 _Claude E. Shannon_ identified _secrecy_ and _authenticity_ as the main concerns of cryptography. Shannon spent most of his life on studying about secrecy. He formulated two kinds of secrecy namely: _theoretical secrecy_ and _practical secrecy_. Thanks to Shannon, the art of cryptography gradually changed to be the science of cryptography
 
-Theoretical secrecy considers an adversary with unlimited computational resources, while practical secrecy acknowledges real-world constraints, where brute-force attacks are infeasible. If a cipher is _unbreakable_, it means that it follows _perfect secrecy_. In theory, no known cryptographic schemes achieve perfect secrecy, as brute force attacks are always possible given a finite key space. Theoretical secrecy assumes unlimited adversarial resources, while practical secrecy assumes resource limitations, making brute-force attacks infeasible.
+Theoretical secrecy considers an adversary with unlimited computational resources, while practical secrecy acknowledges the constraints of the real world, where brute-force attacks are infeasible due to resource limitations. A cipher achieves perfect secrecy if the ciphertext provides no information about the plaintext, regardless of an adversary's computational power. While the one-time pad satisfies this criterion, it is impractical due to its requirement for a key as long as the message and the need for perfect key management. As a result, no widely used cryptographic scheme achieves perfect secrecy, and practical cryptographic systems must balance security with efficiency.
 
-All cryptographic schemes up until now are symmetric key cryptography. Symmetric key cryptography, while efficient, requires all parties to share a secret key. This reliance poses a significant vulnerability: if the key is compromised, the entire communication is at risk. All cryptographic functions are modeled as one-way functions. This is based on the assumption that $P != N P$, this is an unsolved problem in theoretical computer science. Simplified, it roughly translates to "If a single hard problem is solvable in polynomial time, then potentially all problems can be solved in polynomial time." Most of em believe that $P != N P$, but its not proven. If instead $P = N P$, then the world will have serious consequences, like potential for an optimal route for the Traveling Sales Person in optimum time without brute forcing, while also some terrible  consequences including the vulnerability of all cryptographic algorithms. 
+All cryptographic functions are modeled on the concept of one-way functions: functions that are easy to compute but hard to invert. The security of these functions is based on the widely held assumption that $P != N P$, a fundamental unsolved problem in theoretical computer science. This assumption implies that some problems are inherently hard to solve in polynomial time. If $P = N P$, it would mean that all problems in the $N P$ class could be solved efficiently, potentially enabling breakthroughs such as finding optimal solutions for the Traveling Salesperson Problem in polynomial time. However, it would also render most current cryptographic algorithms insecure, as adversaries could efficiently invert one-way functions and compromise encryption schemes.
+
+The assumption that $P != N P$ underpins modern cryptography, but the lack of a formal proof leaves open the possibility of future breakthroughs that could have profound consequences for both cryptography and computational science.
+
+Cryptographic systems can generally be classified as _symmetric_ or _asymmetric_. Symmetric key cryptography, which uses a single shared secret key for both encryption and decryption, is efficient and straightforward but suffers from the inherent vulnerability of key distribution. If the key is compromised, all communications are at risk. 
+
+The *Diffie-Hellman key exchange* revolutionized cryptography by introducing a new way to distribute cryptographic keys, solving one of its fundamental problems. It laid the foundation for asymmetric cryptography. Diffie-Hellman allows symmetric keys to be generated over insecure channels.
+
+We can understand the Diffie-Hellman key exchange by observing @fig:diffie-hellman
+
+#figure(
+  image("diffie-hellman.svg"),
+  caption: [Diffie-Hellman Key Exchange]
+) <fig:diffie-hellman>
+
+Alice and Bob share the _public key_ `a`. Alice generates her _secret key_ `b` while Bob generates his _secret key_ as `c`. They independently combine the public key with their secret key and exchange the results. Ideally, the combination is an one-way function, making decomposition infeasible, so no one can discover their secret keys over an insecure channel. Now, Alice has her secret `b` and the composition from Bob, `ac`. Similarly, Bob has his secret `c` and the composition from Alice, `ab`. They both compute their shared secret as `abc`. Since decomposition is impossible, no one can deduce their individual secrets are from `abc`.
+
+_Prime factorization_ is known to be notoriously hard, while its inverse _multiplication_ is quite simple. For this reason, prime numbers are the basis for most of the modern standard cryptographic schemes. We can use this on-wayed nature of prime numbers to our advantage in Diffie-Hillman Key Exchange. Consider two public keys $p$ and $q$. Let Alice and Bob's secret keys be $a$ and $b$ respectively. Our combination function will be,
+$ f(n) = p^n mod q $
+The inverse of $f$ is known as _discrete logarithm_, which is notoriously hard to solve, thanks to prime numbers inherent stubbornness. Using this function $f$, Alice and Bob compute their shared secret to be $p^(a b) mod q$. 
