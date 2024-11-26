@@ -49,4 +49,6 @@ Each of these solve different purposes and have different approaches. We will lo
 
 The main concerns of cryptography according to _Claude E. Shannon_ are: _secrecy_ and _authenticity_. Shannon spent most of his life on studying about secrecy. He formulated two kinds of secrecy namely: _theoretical secrecy_ and _practical secrecy_. Thanks to Shannon, the art of cryptography gradually changed to be the science of cryptography
 
-Theoretical secrecy assumes that the intruder has unlimited resources, while practical secrecy assumes that the intruder have limited resources. If a cipher is _unbreakable_, it means that it follows _perfect secrecy_. In theory, no known cryptographic schemes are perfect secrecy, as we can always do a brute force attack, since the key space is finite. We make the key space very large, so that brute force is not practically feasible. 
+Theoretical secrecy assumes that the intruder has unlimited resources, while practical secrecy assumes that the intruder have limited resources. If a cipher is _unbreakable_, it means that it follows _perfect secrecy_. In theory, no known cryptographic schemes are perfect secrecy, as we can always do a brute force attack, since the key space is finite. We make the key space very large, so that brute force is not practically feasible.
+
+All cryptographic schemes up until now are symmetric key cryptography. Symmetric key cryptography has 
